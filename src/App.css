@@ -523,6 +523,52 @@ input:focus, select:focus {
   justify-content: center;
   transition: all 0.15s;
 }
+/* Centered Login Viewport */
+.login-wrapper {
+  min-height: calc(80vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2.25rem 2rem;
+  animation: slideFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 0.4rem;
+  font-size: 1.6rem;
+  color: var(--text-heading);
+}
+
+.login-subtext {
+  color: #64748b;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.login-error {
+  background: rgba(244, 63, 94, 0.1);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #f43f5e;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
 
 .delete-btn:hover {
   background: rgba(244, 63, 94, 0.15);

@@ -14,7 +14,6 @@ export default function Login({ onLogin }) {
       return;
     }
 
-    // Client-side authentication check (no backend required)
     if (password.length < 4) {
       setError('Password must be at least 4 characters.');
       return;
@@ -25,29 +24,16 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="page-container" style={{ maxWidth: '420px', marginTop: '3rem' }}>
-      <div className="glass-panel" style={{ padding: '2rem' }}>
-        <h2 style={{ marginBottom: '0.5rem', textAlign: 'center' }}>Welcome to liftly</h2>
-        <p style={{ color: '#64748b', fontSize: '0.85rem', textAlign: 'center', marginBottom: '1.5rem' }}>
+    <div className="login-wrapper">
+      <div className="glass-panel login-card">
+        <h2>Welcome to liftly</h2>
+        <p className="login-subtext">
           Enter your credentials to manage your training sessions.
         </p>
 
-        {error && (
-          <div style={{
-            background: 'rgba(244, 63, 94, 0.1)',
-            border: '1px solid rgba(244, 63, 94, 0.3)',
-            color: '#f43f5e',
-            padding: '0.6rem 0.8rem',
-            borderRadius: '8px',
-            fontSize: '0.8rem',
-            marginBottom: '1rem',
-            textAlign: 'center'
-          }}>
-            {error}
-          </div>
-        )}
+        {error && <div className="login-error">{error}</div>}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <form onSubmit={handleSubmit} className="login-form">
           <div className="input-group">
             <label>Username</label>
             <input
@@ -70,7 +56,7 @@ export default function Login({ onLogin }) {
             />
           </div>
 
-          <button type="submit" className="glow-button" style={{ marginTop: '0.5rem' }}>
+          <button type="submit" className="glow-button">
             Sign In
           </button>
         </form>
