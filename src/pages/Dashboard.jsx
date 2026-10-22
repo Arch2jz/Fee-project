@@ -1,6 +1,7 @@
 import StatsCard from '../components/StatsCard';
 import ProgressChart from '../components/ProgressChart';
 import MuscleSplit from '../components/MuscleSplit';
+import DailyGoals from '../components/DailyGoals';
 import { calculateVolume } from '../utils';
 
 export default function Dashboard({ workouts }) {
@@ -18,6 +19,11 @@ export default function Dashboard({ workouts }) {
         <StatsCard label="Total Workload" value={totalVolume.toLocaleString()} unit="kg" />
         <StatsCard label="Total Sets" value={totalSets} />
         <StatsCard label="Sessions Logged" value={workouts.length} />
+      </section>
+
+      {/* New Daily Goals Module */}
+      <section style={{ marginBottom: '1.75rem' }}>
+        <DailyGoals />
       </section>
 
       <section className="analytics-grid">
