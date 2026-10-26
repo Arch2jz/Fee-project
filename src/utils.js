@@ -83,4 +83,66 @@ export const updateStreakOnCompletion = (todayKey) => {
 
   localStorage.setItem('liftly_streak', JSON.stringify(updatedData));
   return updatedData;
+  
+};
+// Calculate Muscle Recovery % based on hours elapsed since last session
+// Dynamic Muscle Readiness & Fatigue Decay (48-hour physiological model)
+export const calculateMuscleRecovery = (workouts = []) => {
+  const muscles = ['Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core'];
+  const now = new Date();
+
+  return muscles.map((muscle) => {
+    // Find all sessions matching this muscle group
+    const muscleWorkouts = workouts.filter((w) => w.targetMuscle === muscle);
+
+    // If muscle was never trained, it is fully rested
+    if (muscleWorkouts.length === 0) {
+      return {
+        muscle,
+        readiness: 100,
+        hoursElapsed: null,
+        hoursRemaining: 0,
+        status: 'Primed',
+        recommendation: 'Fully recovered. Ideal candidate for high-intensity training.',
+        lastSessionDate: null,
+        color: '#10b981', // green
+      };
+    }
+
+    // Sort to locate the most recent workout timestamp
+    const latest = [...muscleWorkouts].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+    const workoutTime = new Date(latest.date + 'T10:00:00'); // Normalize workout session time
+    const diffMs = now - workoutTime;
+    const hoursElapsed = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60)));
+
+    // 48-Hour Biological Recovery Model
+    const FULL_RECOVERY_HOURS = 48;
+    const hoursRemaining = Math.max(0, FULL_RECOVERY_HOURS - hoursElapsed);
+    const readiness = Math.min(100, Math.round((hoursElapsed / FULL_RECOVERY_HOURS) * 100));
+
+    let status = 'Primed';
+    let color = '#10b981'; // green
+    let recommendation = 'Fully recovered. Prime target for progressive overload.';
+
+    if (hoursElapsed < 24) {
+      status = 'Fatigued';
+      color = '#ef4444'; // red
+      recommendation = 'In acute recovery phase. Rest or work antagonist muscle groups.';
+    } else if (hoursElapsed < 48) {
+      status = 'Rebuilding';
+      color = '#f59e0b'; // amber
+      recommendation = 'Protein synthesis active. Light pump or mobility work only.';
+    }
+
+    return {
+      muscle,
+      readiness,
+      hoursElapsed,
+      hoursRemaining,
+      status,
+      recommendation,
+      lastSessionDate: latest.date,
+      color,
+    };
+  });
 };

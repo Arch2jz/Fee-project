@@ -2,11 +2,15 @@ import StatsCard from '../components/StatsCard';
 import ProgressChart from '../components/ProgressChart';
 import MuscleSplit from '../components/MuscleSplit';
 import DailyGoals from '../components/DailyGoals';
+import RecoveryRadar from '../components/RecoveryRadar';
 import { calculateVolume } from '../utils';
 
-export default function Dashboard({ workouts }) {
-  const totalVolume = workouts.reduce((acc, w) => acc + calculateVolume(w.sets, w.reps, w.weight), 0);
-  const totalSets = workouts.reduce((acc, w) => acc + (w.sets || 0), 0);
+export default function Dashboard({ workouts = [] }) {
+  const totalVolume = workouts.reduce(
+    (acc, w) => acc + calculateVolume(w.sets, w.reps, w.weight),
+    0
+  );
+  const totalSets = workouts.reduce((acc, w) => acc + (Number(w.sets) || 0), 0);
 
   return (
     <div className="page-container dashboard-view">
@@ -21,11 +25,17 @@ export default function Dashboard({ workouts }) {
         <StatsCard label="Sessions Logged" value={workouts.length} />
       </section>
 
-      {/* New Daily Goals Module */}
+      {/* Daily Goals & Streak Tracker */}
       <section style={{ marginBottom: '1.75rem' }}>
         <DailyGoals />
       </section>
 
+      {/* Dynamic Muscle Readiness Tracker */}
+      <section>
+        <RecoveryRadar workouts={workouts} />
+      </section>
+
+      {/* Visual Analytics */}
       <section className="analytics-grid">
         <ProgressChart workouts={workouts} />
         <MuscleSplit workouts={workouts} />
